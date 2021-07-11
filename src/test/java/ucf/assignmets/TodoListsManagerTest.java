@@ -1,14 +1,20 @@
 package ucf.assignmets;
 
 import org.junit.jupiter.api.Test;
+import ucf.assignmets.Item;
+import ucf.assignmets.AddItemController;
+
+import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TodoListsManagerTest {
 
     @Test
-    void addList() {
-        //create file pointer with location of new list additions
+    void infotoUpdateTest(Item item, int index) {
+
+
+
         //call method addList()
         //Assert if file exists
     }

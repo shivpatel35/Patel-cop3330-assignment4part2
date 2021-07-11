@@ -15,20 +15,21 @@ import java.io.IOException;
 //start class for fxmlFile
 public class ToDoList extends Application {
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
+
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        //try catch statement to print stack if file is missing
         try {
             String url = "ucf/assignmets/ToDoList.fxml";
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(url));
 
-
-
             Scene scene = new Scene(root);
-
 
             primaryStage.setTitle("Todo List");
             primaryStage.setScene(scene);
@@ -36,8 +37,6 @@ public class ToDoList extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
 
     }
 }

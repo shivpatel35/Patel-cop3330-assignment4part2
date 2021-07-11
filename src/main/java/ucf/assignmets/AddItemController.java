@@ -22,27 +22,38 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+//Controller for Add Item Window that updates tasks and adds new items into List
 public class AddItemController implements Initializable {
+
+    //text field for user input declaration
     @FXML
     private TextField inputDesc;
 
+    //due-date inputter using date picker
     @FXML
     private DatePicker inputDueDate;
 
+    //cancel button in sceneview window to cancel item being added
     @FXML
     private Button cancel;
+
+    //save button in add task or update task in sceneview window to save item being added
     @FXML
     private Button save;
 
+    //Status to show if tasks are finished, in progress, or started
     @FXML
     private ChoiceBox<String> inputStatus;
 
+    //finished date input
     @FXML
     private DatePicker inputDateFinished;
 
+    //date started input
     @FXML
     private DatePicker inputDateStarted;
 
+    //Labels for drop down menu
     @FXML
     private Label startedLabel;
     @FXML
@@ -57,6 +68,7 @@ public class AddItemController implements Initializable {
     //Date time formatter for DatePicker based on gregorian calendar
     private DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    //string declarations for each type of criteria in addItem sceneview
     private String description = "";
     private String dueDate = "";
     private String status = "";
@@ -77,36 +89,49 @@ public class AddItemController implements Initializable {
         description = item.getDescription();
         dueDate = item.getDueDate();
 
+        //sets text to description entered and formats date based on gregorian calendar format
         inputDesc.setText(description);
         inputDueDate.setValue(LocalDate.parse(dueDate, formatDate));
 
-
+        //updates index
         indexOfUpdated = index;
     }
 
+    //save button action/ cancel button
     @FXML
-    private void saveButtonClicked(ActionEvent event) throws Exception {// changes to add item scene
+    private void saveButtonClicked(ActionEvent event) throws Exception
+    {
+
+        //cancel button handler
         if (event.getSource() == cancel) {
             Stage stage = (Stage) cancel.getScene().getWindow();
             stage.close();
         }
 
+        //if save is clicked
         if (event.getSource() == save) {
+
+            //error handler if else statement
             Alert errorAlert = new Alert(AlertType.ERROR);
             errorAlert.setHeaderText("Input not valid");
             Error err = checkForErrors(inputDesc.getText(), inputDueDate.getValue(), inputStatus.getValue());
             if(err.isErr()) {
                 errorAlert.setContentText(err.getMessage());
                 errorAlert.showAndWait();
+
+                //transfers each crtieria to strings and formats based on table
             }else {
                 description = inputDesc.getText();
                 dueDate = inputDueDate.getValue().format(formatDate);
                 status = inputStatus.getValue();
                 statusDate = "";
 
+                //sends to another if else statement
                 boolean unique = isUnique(description, table);
 
-                if (unique)// decides whether or not to display error message
+
+//makes sure descriptions are not the same in if statement
+                if (unique)
                 {
                     Stage stage = (Stage) save.getScene().getWindow();
                     if (stage.getTitle().contentEquals("Update Task")) {
@@ -123,6 +148,7 @@ public class AddItemController implements Initializable {
     }
 
 
+    //error handling
     private Error checkForErrors(String desc, LocalDate dueDate, String status) {
         Error error = new Error();
         if(desc == null || desc.isEmpty()) {
@@ -141,6 +167,7 @@ public class AddItemController implements Initializable {
         return error;
     }
 
+    //error handling
     private Error checkForErrors(LocalDate date) {
         Error error = new Error();
         if(date == null) {
@@ -151,7 +178,9 @@ public class AddItemController implements Initializable {
         return error;
     }
 
+    //save function
     private void Save() {
+
         Stage stage = (Stage) save.getScene().getWindow();
         boolean onlyPriority = false;
         boolean error = false;
@@ -170,7 +199,7 @@ public class AddItemController implements Initializable {
             } else {
                 err = checkForErrors(inputDateStarted.getValue());
                 if(err.isErr()) {
-                    error = true;
+                    error = false;
                 }else {
                     statusDate = inputDateFinished.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 }
@@ -196,8 +225,10 @@ public class AddItemController implements Initializable {
 
     }
 
+    //function to make sure descriptions are unique
     private boolean isUnique(String description, ObservableList<Item> list)// checks if description is unique
     {
+
         boolean notUnique = false;
         for (int index = 0; (index < list.size()) && (notUnique != true); index++) {
             notUnique = description.equalsIgnoreCase(list.get(index).getDescription());

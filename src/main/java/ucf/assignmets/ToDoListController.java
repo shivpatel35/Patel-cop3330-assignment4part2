@@ -160,7 +160,12 @@ public class ToDoListController implements Initializable {
     private void restoreButtonClicked(ActionEvent event) {
         if(this.table.getItems().size() < 1) { // check to make sure list is empty
             try {
-                InputStream in = getClass().getResourceAsStream("ucf/src/Todolist.txt");
+                InputStream in = new FileInputStream("src/main/resources/Todolist.txt") {
+                    @Override
+                    public int read() throws IOException {
+                        return 0;
+                    }
+                };
                 BufferedReader bfr = new BufferedReader(new InputStreamReader(in));
                 readFile(bfr);
                 bfr.close();

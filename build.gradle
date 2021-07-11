@@ -25,3 +25,6 @@ javafx {
 }
 
 mainClassName = 'ucf.assignmets.ToDoList'
+folder test {
+    useJUnitPlatform()
+}

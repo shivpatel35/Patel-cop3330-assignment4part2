@@ -1,56 +1,48 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-class App{
+class ToDoList{
     main()
     start()
 }
 
-class controller implements ToDoLists{
+class ToDoListController implements Initializable{
 
-addListclicked()
-removeListclicked()
-editTitleofListclicked()
-addItemtoListclicked()
-removeItemfromListclicked()
-editDescriptionofitemclicked()
-editDuedateofitemclicked()
-markItemclicked()
-displayAlloflistclicked()
-displayIncompleteclicked()
-displayCompletedclicked()
-saveItemstostorageclicked()
-saveAllliststostorageclicked()
-loadListclicked()
-loadMultiplelistsclicked()
+button Update;
+button Delete;
+
+addItemclicked()
+initialize()
+saveButtonClicked()
+restoreButtonClicked()
+readFile()
 
 }
 
-class ToDoListManager{
-
-string title
-string d_date
-ArrayList entries
-
-addList()
-removeList()
-addItem()
-removeItem()
-editDescriptionofitem()
-editDuedateofitem()
-markItemclicked()
-displayAlloflist()
-displayCompleted()
-displayIncompleted()
-saveItemstostorage()
-saveAllListstostorage()
-loadList()
-loadMultiplelists()
+class Item{
+ String description;
+ String dueDate;
+ String status;
+ String statusDate;
 
 }
 
-javafx.Application <|--App
+class AddItemController implements Initializable{
 
-App - controller
+    TextField inputDesc;
+    DatePicker inputDueDate;
+    Button cancel;
+    Button save;
+
+    setTableItems()
+    infoToUpdate()
+    handleButtonAction()
+
+
+}
+
+javafx.Application <|--ToDoList
+
+ToDoList- ToDoListController
 
 @enduml
